@@ -20,8 +20,8 @@ def train(x, y, num_iter):
     return loss.item()
 
 
-df = pd.read_excel('res1mod1.xls')
-df.to_csv('res1mod2.csv')
+#df = pd.read_excel('res1mod1.xls')
+#df.to_csv('res1mod2.csv')
 
 df = pd.read_csv('res1mod2.csv')
 df = df.iloc[np.random.permutation(len(df))]
@@ -35,7 +35,7 @@ Y = np.zeros((y.shape[0], np.unique(y).shape[0]))
 
 
 inputSize = X.shape[1] # количество входных сигналов равно количеству признаков задачи 
-hiddenSizes = 150 # задаем число нейронов скрытого слоя 
+hiddenSizes = 50 # задаем число нейронов скрытого слоя 
 outputSize = Y.shape[1] if len(Y.shape) else 1 # количество выходных сигналов равно количеству классов задачи
 
 
@@ -56,14 +56,3 @@ pred = net.forward(torch.from_numpy(X_test.astype(np.float32))).detach().numpy()
 err = sum(abs((pred>0.5)-Y_test))
 print(err)
 
-from sklearn.linear_model import LogisticRegression
-from sklearn import metrics
-from sklearn.metrics import confusion_matrix
-
-# настройка параметров модели 
-model = LogisticRegression()
-y_scor = model.fit(X_train, Y_train)
-y_score = y_scor.predict(X_test)
-
-# оценка точности модели
-print(metrics.classification_report(Y_test, y_score))
